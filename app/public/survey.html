@@ -170,7 +170,8 @@
       <br>
 
       <footer class="footer">
-        <p><a href="/api/friends">API Friends List</a></p>
+        <p><a href="../data/friends.js">Friends List</a></p>
+        <p><a href="home.html">Home</a></p>
       </footer> 
 
 
@@ -280,7 +281,7 @@
           newFriend.scores = scoresArray;
           
           var currentURL = window.location.origin;
-          $.post(currentURL + "/api/friends", newFriend, function(data){
+          $.post(currentURL + "../data/friends.js", newFriend, function(data){
             
             $('#matchName').text(data.name);
             $('#matchImg').attr('src', data.photo);
