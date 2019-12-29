@@ -3,11 +3,11 @@ console.log('API Route Connected Successfully');
 const friendsData = require('../data/friends.js');
 
 function apiRoutes(app) {
-    app.get('../data/friends.js', function (req, res){
+    app.get('/api/friends', function (req, res){
         res.json(friendsData);
     });
 
-    app.post('../data/friends.js', function (req, res) {
+    app.post('/apifriends', function (req, res) {
 
         const newFriend = {
             name: req.body.name,
