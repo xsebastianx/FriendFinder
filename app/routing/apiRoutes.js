@@ -1,49 +1,61 @@
 console.log('API Route Connected Successfully');
 
-const friendsData = require('../data/friends.js');
+var friendsData = require('../data/friends.js');
 
 function apiRoutes(app) {
-    app.get('/api/friends', function (req, res){
-        res.json(friendsData);
-    });
 
-    app.post('/apifriends', function (req, res) {
+  
+  app.get('/api/friends', function (req, res) {
+    res.json(friendsData);
+  });
 
-        const newFriend = {
-            name: req.body.name,
-            photo: req.body.photo,
-            socores: []
-        };
-        const scoresArray = [];
-        for(var i=0; i < req.body.scores.length; i++){
-            scoresArray.push( parseInt(req.body.scores[i]))
-        }
-        newFriend.scores = scoresArray;
+  app.post('/api/friends', function (req, res) {
 
-        const scoreComparisonArray = [];
-        for(var i=0; i < friendsData.length; i++){
+    var newFriend = {
+      name: req.body.name,
+      photo: req.body.photo,
+      scores: []
+    };
+    var scoresArray = [];
+    for(var i=0; i < req.body.scores.length; i++){
+      scoresArray.push( parseInt(req.body.scores[i]) )
+    }
+    newFriend.scores = scoresArray;
 
-            const currentComparison = 0;
-            for(var j=0; j < newFriend.scores.length; j++){
-                currentComparison += Math.abs( newFriend.scores[j] - friendsData[i],scores[j] );
-            }
 
-            scoreComparisonArray.push(currentComparison);
-        }
-            const bestMatchPosition = 0;
-            for (var i=1; i < scoreComparisonArray.length; i++){
-                if(scoreComparisonArray[i] <= scoreComparisonArray[bestMatchPosition]){
-                    bestMatchPosition = i;
-                }
-            }
+    var scoreComparisionArray = [];
+    for(var i=0; i < friendsData.length; i++){
 
-            const bestFriendMatch = friendsData[bestMatchPosition];
+      var currentComparison = 0;
+      for(var j=0; j < newFriend.scores.length; j++){
+        currentComparison += Math.abs( newFriend.scores[j] - friendsData[i].scores[j] );
+      }
 
-            res.json(bestFriendMatch);
+      scoreComparisionArray.push(currentComparison);
+    }
 
-            friendsData.push(newFriend);
-        
-    });
+    var bestMatchPosition = 0; 
+    for(var i=1; i < scoreComparisionArray.length; i++){
+      
+      if(scoreComparisionArray[i] <= scoreComparisionArray[bestMatchPosition]){
+        bestMatchPosition = i;
+      }
+
+    }
+
+    var bestFriendMatch = friendsData[bestMatchPosition];
+
+
+
+    res.json(bestFriendMatch);
+
+
+
+    friendsData.push(newFriend);
+
+  });
+
 }
+
 
 module.exports = apiRoutes;
